@@ -81,7 +81,7 @@ public class AuthService {
         User user = userRepository.findByUsername(username).orElseThrow(() -> new RedditErrorException("user name not fond -" + username));
 
         if ( username.isEmpty()){
-            throw new RedditErrorException("user al ready exit");
+            throw new RedditErrorException("user already exit");
         }
         user.setEnable(true);
         userRepository.save(user);
