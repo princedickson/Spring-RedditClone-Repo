@@ -25,6 +25,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig {
     private final String[] permit = {
             "/api/auth/**",
+            "/api/subreddit/**",
             "/authenticated"
     };
     @Autowired
