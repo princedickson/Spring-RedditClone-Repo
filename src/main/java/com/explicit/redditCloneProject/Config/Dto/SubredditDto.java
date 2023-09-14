@@ -20,7 +20,7 @@ public class SubredditDto {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @NotBlank(message = "Enter a name")
-    private String SubredditName;
+    private String subredditName;
     @NotBlank(message = "description is required")
     private String description;
     private Integer numberOfPost;

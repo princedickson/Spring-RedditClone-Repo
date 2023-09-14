@@ -1,6 +1,7 @@
 package com.explicit.redditCloneProject.Service;
 
 import com.explicit.redditCloneProject.Config.Dto.SubredditDto;
+import com.explicit.redditCloneProject.Mapper.SubredditMapper;
 import com.explicit.redditCloneProject.Model.Subreddit;
 import com.explicit.redditCloneProject.Repository.SubredditRepository;
 import jakarta.transaction.Transactional;
@@ -22,31 +23,26 @@ public class SubredditService {
 
     @Autowired
     private final SubredditRepository subredditRepository;
+    @Autowired
+    private final SubredditMapper subredditMapper;
     @Transactional
     public SubredditDto save(SubredditDto subredditDto) {
-        Subreddit save = subredditRepository.save(mapSuredditDto(subredditDto));
+        Subreddit save = subredditRepository.save(subredditMapper.mapToSubredditDto(subredditDto));
         subredditDto.setId(save.getId());
         return subredditDto;
-    }
-
-    private Subreddit mapSuredditDto(SubredditDto subredditDto) {
-        return Subreddit.builder().name(subredditDto.getSubredditName())
-                .description(subredditDto.getDescription())
-                .build();
     }
 
     @Transactional
     public List<SubredditDto> getAll() {
         return subredditRepository.findAll()
                 .stream()
-                .map(this::mapToDto)
+                .map(subredditMapper::mapToDto)
                 .collect(toList());
     }
 
-    private SubredditDto mapToDto(Subreddit subreddit) {
-        return SubredditDto.builder().SubredditName(subreddit.getName())
-                .id(subreddit.getId())
-                .numberOfPost(subreddit.getPosts().size())
-                .build();
+    public SubredditDto getSubreddit(Long id) throws RedditErrorException {
+        Subreddit subreddit = subredditRepository.findById(id)
+                .orElseThrow(()-> new RedditErrorException("No user found with id -" + id));
+        return subredditMapper.mapToDto(subreddit);
     }
 }

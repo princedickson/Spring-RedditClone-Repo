@@ -1,6 +1,7 @@
 package com.explicit.redditCloneProject.Controller;
 
 import com.explicit.redditCloneProject.Config.Dto.SubredditDto;
+import com.explicit.redditCloneProject.Service.RedditErrorException;
 import com.explicit.redditCloneProject.Service.SubredditService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -33,5 +34,11 @@ public class SubredditController {
     public ResponseEntity<List<SubredditDto>> getAllSubreddit(){
         return ResponseEntity.status(HttpStatus.OK)
                 .body((subredditService.getAll()));
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<SubredditDto> getSubredditById(@PathVariable  Long id) throws RedditErrorException {
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(subredditService.getSubreddit(id));
     }
 }
