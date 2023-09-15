@@ -1,4 +1,4 @@
-package com.explicit.redditCloneProject.Service;
+package com.explicit.redditCloneProject.Exception;
 
 public class RedditErrorException extends Throwable {
     public RedditErrorException(String exceptionMessage) {

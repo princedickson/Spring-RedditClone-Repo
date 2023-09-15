@@ -1,12 +1,10 @@
 package com.explicit.redditCloneProject.Service;
 
+import com.explicit.redditCloneProject.Exception.RedditErrorException;
 import com.explicit.redditCloneProject.Model.NotificationEmail;
-import jakarta.mail.internet.MimeMessage;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.mail.MailException;
-import org.springframework.mail.MailSender;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.mail.javamail.MimeMessagePreparator;

@@ -1,16 +1,24 @@
 package com.explicit.redditCloneProject.Service;
 
 import com.explicit.redditCloneProject.Config.Dto.RegisterRequest;
+import com.explicit.redditCloneProject.Exception.RedditErrorException;
 import com.explicit.redditCloneProject.Model.NotificationEmail;
 import com.explicit.redditCloneProject.Model.User;
 import com.explicit.redditCloneProject.Model.VerificationToken;
 import com.explicit.redditCloneProject.Repository.UserRepository;
 import com.explicit.redditCloneProject.Repository.VerificationRepository;
+import org.springframework.boot.autoconfigure.security.oauth2.resource.OAuth2ResourceServerProperties;
+import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import java.time.Instant;
 import java.util.Optional;
 import java.util.UUID;
@@ -18,6 +26,11 @@ import java.util.UUID;
 @Service
 @Component
 public class AuthService {
+    private final BCryptPasswordEncoder passwordEncoder;
+    private final VerificationRepository verificationRepository;
+    private final MailService mailService;
+    private final AuthenticationManager authenticationManager;
+    UserRepository userRepository;
     public AuthService(BCryptPasswordEncoder passwordEncoder, UserRepository userRepository,
                        VerificationRepository verificationRepository, MailService mailService,
                        AuthenticationManager authenticationManager) {
@@ -27,12 +40,6 @@ public class AuthService {
         this.mailService = mailService;
         this.authenticationManager = authenticationManager;
     }
-
-    private final BCryptPasswordEncoder passwordEncoder;
-    private final VerificationRepository verificationRepository;
-    private final MailService mailService;
-    private final AuthenticationManager authenticationManager;
-    UserRepository userRepository;
 
     @Transactional
     public void signUpUser(RegisterRequest registerRequest) throws RedditErrorException {
@@ -80,10 +87,24 @@ public class AuthService {
         String username = verificationToken.getUser().getUsername();
         User user = userRepository.findByUsername(username).orElseThrow(() -> new RedditErrorException("user name not fond -" + username));
 
-        if ( username.isEmpty()){
+        if (username.isEmpty()) {
             throw new RedditErrorException("user already exit");
         }
         user.setEnable(true);
         userRepository.save(user);
+    }
+
+    @Transactional(readOnly = true)
+    public User getCurrentUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && authentication.isAuthenticated()) {
+            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+            String username = userDetails.getUsername();
+
+            return userRepository.findByUsername(username)
+                    .orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + username));
+        } else {
+            throw new AuthenticationCredentialsNotFoundException("User not authenticated");
+        }
     }
 }

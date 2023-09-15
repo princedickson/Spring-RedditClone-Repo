@@ -16,8 +16,6 @@ import javax.validation.constraints.NotBlank;
 @Builder
 public class SubredditDto {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @NotBlank(message = "Enter a name")
     private String subredditName;

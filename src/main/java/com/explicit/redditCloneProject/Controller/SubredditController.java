@@ -1,7 +1,7 @@
 package com.explicit.redditCloneProject.Controller;
 
 import com.explicit.redditCloneProject.Config.Dto.SubredditDto;
-import com.explicit.redditCloneProject.Service.RedditErrorException;
+import com.explicit.redditCloneProject.Exception.RedditErrorException;
 import com.explicit.redditCloneProject.Service.SubredditService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

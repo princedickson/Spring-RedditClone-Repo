@@ -59,7 +59,7 @@ public class JwtService {
         return (username.equals(userDetails.getUsername()) && !isExpired(TheToken));
     }
 
-    public  <T> T extractClaim(String token, Function<Claims, T> claimsTFunction) {
+    public <T> T extractClaim(String token, Function<Claims, T> claimsTFunction) {
         final Claims claims = extractAllClaims(token);
         return claimsTFunction.apply(claims);
     }
