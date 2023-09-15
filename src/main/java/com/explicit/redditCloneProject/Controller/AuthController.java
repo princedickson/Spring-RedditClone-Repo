@@ -3,7 +3,7 @@ package com.explicit.redditCloneProject.Controller;
 import com.explicit.redditCloneProject.Config.Dto.RegisterRequest;
 import com.explicit.redditCloneProject.Jwt.*;
 import com.explicit.redditCloneProject.Service.AuthService;
-import com.explicit.redditCloneProject.Service.RedditErrorException;
+import com.explicit.redditCloneProject.Exception.RedditErrorException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,7 +11,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
