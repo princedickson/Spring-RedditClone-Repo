@@ -37,11 +37,14 @@ public class PostService {
     @Autowired
     private final UserRepository userRepository;
 
-    @Transactional(readOnly = true)
     public void save(PostRequestDto postRequest) {
         Subreddit subreddit = subredditRepository.findByName(postRequest.getSubredditName())
-                .orElseThrow(() -> new SubredditNotFoundException(postRequest.getPostName()));
+                .orElseThrow(() -> new SubredditNotFoundException("Subreddit not found with name: " + postRequest.getSubredditName()));
         postRepository.save(postMapper.map(postRequest, subreddit, authService.getCurrentUser()));
+        //Post post = postMapper.map(postRequest, subreddit, authService.getCurrentUser());
+        /*Post savedPost = postRepository.save(post);
+
+        return postMapper.mapToDto(savedPost);*/
     }
 
     @Transactional(readOnly = true)
