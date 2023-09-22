@@ -24,23 +24,15 @@ public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long postId;
-    @NotBlank(message = "Enter a post name ")
-    @Column(name = "post name")
     private String postName;
-    @Nullable
-    @Column(name = "url")
     private String url;
     @Lob
-    @Nullable()
-    @Column(name = "description")
     private String description;
-    @Column(name = "vote count")
-    private int voteCount;
-    @Column(name = "create date")
-    private Instant createDate;
+    private Integer voteCount=0;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "userId", referencedColumnName = "userId")
     private User user;
+    private Instant createDate;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id", referencedColumnName = "id")
     private Subreddit subreddit;

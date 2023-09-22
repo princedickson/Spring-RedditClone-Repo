@@ -28,6 +28,7 @@ public class SecurityConfig {
             "/api/auth/**",
             "/api/subreddit/**",
             "/api/post/**",
+            "/api/comment/**",
             "/authenticated"
     };
     @Autowired

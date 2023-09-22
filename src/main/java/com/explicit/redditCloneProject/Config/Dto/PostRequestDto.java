@@ -11,7 +11,7 @@ import javax.validation.constraints.NotBlank;
 @AllArgsConstructor
 @NoArgsConstructor
 public class PostRequestDto {
-    private String postId;
+    private Long postId;
     private String subredditName;
     @NotBlank(message = "post name can not be null")
     private String postName;

@@ -18,19 +18,9 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userId;
-
     private String username;
-
     private String password;
-
-    @NotEmpty
-    @Email
-    @Column(name = "Email")
     private String email;
-
     private boolean isEnable;
-
-    @Column(name = "create date")
     private Instant createDate;
-
 }
